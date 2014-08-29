@@ -1,0 +1,117 @@
+---
+title: "Sinä, Suomi ja Eurooppa"
+author: "OKFFI avoimen tieteen työryhmä"
+date: "29.08.2014"
+output: ioslides_presentation
+runtime: shiny
+---
+
+## Applikaation kuvaus
+
+Tämän vuorovaikutteisen esityksen kautta voit kokeilla omilla tiedoillasi mihin sijoitut taustatietojesi ja mielipiteinesi suomalaisten ja eurooppalaisten joukossa. Vertailuaineisto koostuu tilastokeskuksen, eurostatin sekä [Europen Social Survey]()-tutkimusaineiston tiedoista.
+
+Tilastokeskuksen ja eurostatin aineistoja käytetään [rOpenGov]()-projektin kehittämillä työkaluilla. **rOpenGov** on läheisessä yhteistyössä avoimen tieteen työryhmän kanssa.
+
+Esitys on toteutettu avoimen lähdekoodin analyysityökaluilla:
+
+- [R-tilasto-ohjelmointikieli]()
+- [Rstudio-IDE]()
+- [shiny-vuorovaikutteiset laskentaympäristöt R:llä]()
+- [vuorovaikutteiset dokumentit shinyllä ja R:llä](http://rmarkdown.rstudio.com/authoring_shiny.html)
+
+## Ikäsi suhteessa Euroopan maiden ikäjakaumaan
+
+```{r, echo=FALSE}
+inputPanel(
+    
+  sliderInput("age", label = "Ikäsi:",
+              min = 10, max = 90, value = 45, step = 1)
+)
+
+renderPlot({
+  library(ggplot2)
+  age <- as.numeric(input$age)
+  load(url("http://koti.kapsi.fi/~muuankarski/avoin-suomi/ika.RData"))
+  names(ika) <- "ika"
+  ggplot(ika,aes(ika)) + 
+    geom_bar() +
+    annotate("segment", x = age, xend = age,
+             y=0, yend = 50,
+             color = "red",
+             size=0.4,
+             linetype="dashed") +
+    coord_cartesian(xlim=c(0,100))
+  #ggplot(cars, aes(speed,dist)) + geom_point()
+})
+```
+
+
+##  Kuinka paljon yhteensä käytätte aikaa television katsomiseen tavallisina arkipäivinä?
+
+
+```{r, echo=FALSE}
+inputPanel(
+    
+   radioButtons("tv", "",
+             c("En ollenkaan" = "En ollenkaan",
+               "Alle ½ tuntia" = "Alle ½ tuntia",
+               "½ - 1 tuntia" = "½ - 1 tuntia",
+               "Yli tunnin, mutta korkeintaan 1 ½ tuntia" = "Yli tunnin, mutta korkeintaan 1 ½ tuntia",
+               "Yli 1 ½ tuntia, mutta korkeintaan 2 tuntia" = "Yli 1 ½ tuntia, mutta korkeintaan 2 tuntia",
+               "Yli 2 tuntia, mutta korkeintaan 2 ½ tuntia" = "Yli 2 ½ tuntia, mutta korkeintaan 3 tuntia",
+               "Yli 2 ½ tuntia, mutta korkeintaan 3 tuntia" = "Yli 2 ½ tuntia, mutta korkeintaan 3 tuntia",
+               "Yli 3 tuntia" = "Yli 3 tuntia"))
+)
+
+renderTable({
+  tv <- as.data.frame(input$tv)
+  tv
+  #ggplot(cars, aes(speed,dist)) + geom_point()
+})
+```
+
+
+## Upotettu applikaatio
+
+```{r, echo=FALSE}
+```{r, echo = FALSE}
+shinyApp(
+  
+  ui = fluidPage(
+    selectInput("region", "Region:", 
+                choices = colnames(WorldPhones)),
+    plotOutput("phonePlot")
+  ),
+  
+  server = function(input, output) {
+    output$phonePlot <- renderPlot({
+      barplot(WorldPhones[,input$region]*1000, 
+              ylab = "Number of Telephones", xlab = "Year")
+    })
+  },
+  
+  options = list(height = 500)
+)
+```
+
+## Minkälaiset kotitaloutenne tulot ovat tällä hetkellä?
+
+```{r, echo=FALSE}
+inputPanel(
+    
+   radioButtons("tulot", "",
+             c("Nykyisillä tuloilla elää mukavasti" = "Paskapuhetta",
+               "Nykyisillä tuloilla tulee toimeen" = "Joo joo",
+               "Nykyisillä tuloilla on vaikeuksia tulla toimeen" = "Älä höpötä",
+               "Nykyisillä tuloilla on hyvin vaikea tulla toimeen" = "Afrikassa lapset kuolee nälkään"))
+)
+
+renderTable({
+  tulot <- as.data.frame(input$tulot)
+  tulot
+  #ggplot(cars, aes(speed,dist)) + geom_point()
+})
+```
+
+
+
