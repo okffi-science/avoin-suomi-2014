@@ -1,27 +1,246 @@
 ---
-title: "Sinä, Suomi ja Eurooppa"
+title: "Sinä ja sun Eurooppas"
 author: "OKFFI avoimen tieteen työryhmä"
 date: "29.08.2014"
 output: ioslides_presentation
+subtitle: Kokeile miten sinun mielipiteesi eroavat muun Euroopan mielipiteistä
 runtime: shiny
 ---
 
+##
+
+<center>
+
+![](fig/qrcode_url.png)
+
+</br>
+
+[https://muuankarski.shinyapps.io/avoin-suomi-2014/](https://muuankarski.shinyapps.io/avoin-suomi-2014/)
+
+</center>
+
 ## Applikaation kuvaus
 
-Tämän vuorovaikutteisen esityksen kautta voit kokeilla omilla tiedoillasi mihin sijoitut taustatietojesi ja mielipiteinesi suomalaisten ja eurooppalaisten joukossa. Vertailuaineisto koostuu tilastokeskuksen, eurostatin sekä [Europen Social Survey]()-tutkimusaineiston tiedoista.
+Tämän vuorovaikutteisen esityksen kautta voit kokeilla omilla tiedoillasi mihin sijoitut taustatietojesi ja mielipiteinesi eurooppalaisten joukossa. Vertailuaineisto koostuu eurostatin sekä [Europen Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tiedoista.
 
-Tilastokeskuksen ja eurostatin aineistoja käytetään [rOpenGov]()-projektin kehittämillä työkaluilla. **rOpenGov** on läheisessä yhteistyössä avoimen tieteen työryhmän kanssa.
+Eurostatin aineistoja käytetään [rOpenGov](http://ropengov.github.io/)-projektin kehittämillä työkaluilla. **rOpenGov** on läheisessä yhteistyössä avoimen tieteen työryhmän kanssa.
 
 Esitys on toteutettu avoimen lähdekoodin analyysityökaluilla:
 
-- [R-tilasto-ohjelmointikieli]()
-- [Rstudio-IDE]()
-- [shiny-vuorovaikutteiset laskentaympäristöt R:llä]()
+- [R-tilasto-ohjelmointikieli](www.r-project.org)
+- [Rstudio-IDE](http://www.rstudio.com/products/RStudio/)
+- [shiny-vuorovaikutteiset laskentaympäristöt R:llä](http://shiny.rstudio.com/)
 - [vuorovaikutteiset dokumentit shinyllä ja R:llä](http://rmarkdown.rstudio.com/authoring_shiny.html)
 
+## Linkkejä datoihin
+
+### European Social Survey
+
+- [suomenkielinen dokumentaatio](http://www.europeansocialsurvey.org/data/country.html?c=finland)
+- [kysymyslomake suomeksi](http://www.europeansocialsurvey.org/docs/round6/fieldwork/finland/finnish/ESS6_questionnaires_FI_fin.pdf)
+- [kysymysnumerot vs. muuttujanimet (SPSS-muodossa :( )](http://www.europeansocialsurvey.org/file/download?f=ESS6rename.sas)
+
+### Eurostat
+
+
+```{r datat, echo=FALSE, cache=FALSE, results='hide', message=FALSE, warning=FALSE}
+# Load Ess data
+# liitetään maiden suomenkieliset nimet ja regiimien nimet
+# library(RCurl)
+# GHurl <- getURL("https://raw.githubusercontent.com/muuankarski/data/master/world/countries_continents.csv")
+# dat <- read.csv(text = GHurl)
+# dat <- dat[!duplicated(dat[c("cCode2")]),]
+# ess <- merge(ess,dat,
+#              by.x="cntry",
+#              by.y="cCode2",
+#              all.x=TRUE)
+# save(ess, file="data/ess.rda")
+#load(url("http://koti.kapsi.fi/~muuankarski/avoin-suomi/ess.rda"))
+load("data/ess.rda")
+# load EU country shapefile from GISco
+# download.file("http://epp.eurostat.ec.europa.eu/cache/GISCO/geodatafiles/CNTR_2010_20M_SH.zip",
+#                          destfile="zipfile")
+# unzip("zipfile")
+# library(rgdal)
+# # read into SpatialPolygonsDataFrame
+# map <- readOGR(dsn = "./CNTR_2010_60M_SH/data", layer = "CNTR_RG_60M_2010")
+# library(ggplot2)
+# library(rgeos)
+# map <- gBuffer(map, width=0, byid=TRUE)
+# map$id <- rownames(map@data)
+# map.points <- fortify(map, region = "id")
+# map.df <- merge(map.points, map, by = "id")
+# save(map.df, file="map.df.rda")
+# load(url("http://koti.kapsi.fi/~muuankarski/avoin-suomi/map.df.rda"))
+load("data/map.df.rda")
+```
+
+
+```{r funktiot, echo=FALSE}
+
+ess_tolppa <- function(var, value, mini, maxi) {
+  # load data
+  # munge key variable
+  bar <- function(x) as.character(eval(parse(text=x)) )
+  variable <- as.factor(bar(var))
+  cntry <- ess$maa
+  pweight <- ess$pweight # painotukset
+  idno <- ess$idno # painotukset
+  df <- data.frame(cntry,variable,pweight,idno)
+  levels(df$variable) <- c(levels(df$variable), 0,10)
+  df$variable[df$variable == mini] <- 0
+  df$variable[df$variable == maxi] <- 10
+  df$cntry <- as.character(df$cntry)
+  
+  df.plot <- df[df$variable %in% 1:10,]
+  df.plot[[2]] <- as.numeric(levels(df.plot[[2]]))[df.plot[[2]]]
+  
+  # order countries by median income
+  library(plyr)
+  library(grid)
+  order.data <- ddply(df.plot, .(cntry), summarise, 
+               mean    = mean(variable, na.rm=TRUE))
+
+  order.data <- order.data[order(order.data$mean), ]
+  df.plot$cntry <- factor(df.plot$cntry,
+                          levels = order.data$cntry)
+  
+  library(survey)
+  d.df <- svydesign(id = ~idno, 
+                  weights = ~pweight, 
+                  data = df.plot)
+  df.plot2 <- data.frame(prop.table(svytable(~variable+cntry, d.df),2)*100)
+  names(df.plot2)[3] <- "rel"
+  df.plot2$variable <- as.numeric(levels(df.plot2$variable))[df.plot2$variable]
+  
+
+  library(ggplot2)
+  ggplot(data=df.plot2,
+         aes(x=variable,y=rel,fill=variable)) + geom_bar(stat="identity") +
+    facet_wrap(~cntry) + scale_fill_gradient(low="red", high="green") +
+    annotate("segment", x = value, xend = value,
+             y=0, yend = 30,
+             color = "red",
+             size=0.4,
+             linetype="dashed") +
+    theme_minimal() +
+    theme(legend.position="none") +
+    theme(axis.title.x = element_blank())
+}
+
+ess_laatikkojana <- function(var, value, mini, maxi) {
+  # load data
+  # munge key variable
+  bar <- function(x) as.character(eval(parse(text=x)) )
+  variable <- as.factor(bar(var))
+  cntry <- ess$maa
+  regime_fi <- ess$ryhma1
+  pweight <- ess$pweight # painotukset
+  idno <- ess$idno # painotukset
+  df <- data.frame(cntry,variable,regime_fi,pweight,idno)
+  levels(df$variable) <- c(levels(df$variable), 0,10)
+  df$variable[df$variable == mini] <- 0
+  df$variable[df$variable == maxi] <- 10
+  df$cntry <- as.character(df$cntry)
+  
+  df.plot <- df[df$variable %in% 1:10,]
+  df.plot[[2]] <- as.numeric(levels(df.plot[[2]]))[df.plot[[2]]]
+  library(survey)
+  d.df <- svydesign(id = ~idno, 
+                  weights = ~pweight, 
+                  data = df.plot)
+  data_mean <- as.numeric(svymean(~as.numeric(variable),d.df)[1])
+  # order countries by median income
+  library(plyr)
+  library(grid)
+  order.data <- ddply(df.plot, .(cntry), summarise, 
+               mean    = mean(variable, na.rm=TRUE))
+
+  order.data <- order.data[order(order.data$mean), ]
+  df.plot$cntry <- factor(df.plot$cntry,
+                          levels = order.data$cntry)
+  
+  library(ggplot2)
+  ggplot(data=df.plot,
+         aes(x=cntry,y=variable, fill=regime_fi)) + 
+    geom_boxplot(alpha=.5) +
+    # vastaaja
+    annotate("segment", x = 0, xend = 29,
+             y=value, yend = value,
+             color = "red",
+             size=1,
+             linetype="dashed") +
+    annotate("text", x = 5, y=value+0.2, 
+             color = "red",
+             size=4,label="Sinä!") +
+    # datan keskiarvo
+    annotate("segment", x = 0, xend = 29,
+             y=data_mean, yend = data_mean,
+             color = "blue",
+             size=1,
+             linetype="solid") +
+    annotate("text", x = 20, y=data_mean-0.2, 
+             color = "blue",
+             size=4,label="Euroopan keskiarvo") +
+    theme_minimal() +
+    scale_fill_manual(values=c("#999999", "#E69F00", "#56B4E9", 
+                               "#009E73","#D55E00", "#CC79A7","#0072B2","#F0E442")) +
+    theme(axis.text.x  = element_text(angle=90, vjust= 0.5)) +
+    theme(legend.position = "top") +
+    theme(legend.title = element_blank()) +
+    theme(legend.direction = "horizontal") +
+    theme(axis.title = element_blank())
+    
+}
+
+ess_kartta <- function(var, value, mini, maxi) {
+  # load data
+  # munge key variable
+  bar <- function(x) as.character(eval(parse(text=x)) )
+  variable <- as.factor(bar(var))
+  cntry <- ess$cntry
+  df <- data.frame(cntry,variable)
+  levels(df$variable) <- c(levels(df$variable), 0,10)
+  df$variable[df$variable == mini] <- 0
+  df$variable[df$variable == maxi] <- 10
+  df$cntry <- as.character(df$cntry)
+  
+  df.plot <- df[df$variable %in% 1:10,]
+  df.plot[[2]] <- as.numeric(levels(df.plot[[2]]))[df.plot[[2]]]
+  
+  # calculate means for plotting
+  library(plyr)
+  library(grid)
+  df.mean <- ddply(df.plot, .(cntry), summarise, 
+               mean    = mean(variable, na.rm=TRUE))
+  map.df.l <- merge(map.df,df.mean,by.x="CNTR_ID",by.y="cntry")
+  
+  map.df.l <- map.df.l[order(map.df.l$order), ]
+  library(ggplot2)
+  ggplot(data=map.df.l,
+             aes(long,lat,group=group)) +
+        geom_polygon(aes(fill = mean),
+                     colour="white",
+                     size=.2) +
+        geom_polygon(data = map.df.l, aes(long,lat),
+                     fill=NA,
+                     colour="white",
+                     size = 0.1) + scale_fill_gradient(low="red", high="green", limits=c(0, 10)) +
+        coord_cartesian(xlim=c(-14,34),ylim=c(35,70)) +
+    theme_minimal() +
+    theme(axis.title = element_blank())
+}
+
+
+
+
+
+```
+
+
+```{r ika, echo=FALSE, eval=FALSE}
 ## Ikäsi suhteessa Euroopan maiden ikäjakaumaan
 
-```{r, echo=FALSE}
 inputPanel(
     
   sliderInput("age", label = "Ikäsi:",
@@ -41,77 +260,558 @@ renderPlot({
              size=0.4,
              linetype="dashed") +
     coord_cartesian(xlim=c(0,100))
-  #ggplot(cars, aes(speed,dist)) + geom_point()
 })
 ```
 
+# Mielipiteet demokratiasta
 
-##  Kuinka paljon yhteensä käytätte aikaa television katsomiseen tavallisina arkipäivinä?
+##
 
-
-```{r, echo=FALSE}
-inputPanel(
-    
-   radioButtons("tv", "",
-             c("En ollenkaan" = "En ollenkaan",
-               "Alle ½ tuntia" = "Alle ½ tuntia",
-               "½ - 1 tuntia" = "½ - 1 tuntia",
-               "Yli tunnin, mutta korkeintaan 1 ½ tuntia" = "Yli tunnin, mutta korkeintaan 1 ½ tuntia",
-               "Yli 1 ½ tuntia, mutta korkeintaan 2 tuntia" = "Yli 1 ½ tuntia, mutta korkeintaan 2 tuntia",
-               "Yli 2 tuntia, mutta korkeintaan 2 ½ tuntia" = "Yli 2 ½ tuntia, mutta korkeintaan 3 tuntia",
-               "Yli 2 ½ tuntia, mutta korkeintaan 3 tuntia" = "Yli 2 ½ tuntia, mutta korkeintaan 3 tuntia",
-               "Yli 3 tuntia" = "Yli 3 tuntia"))
-)
-
-renderTable({
-  tv <- as.data.frame(input$tv)
-  tv
-  #ggplot(cars, aes(speed,dist)) + geom_point()
-})
-```
+kuinka tärkeänä demokratian kannalta yleisesti pidätte sitä, että Valtiolliset vaalit ovat vapaat ja rehelliset ?
 
 
-## Upotettu applikaatio
-
-```{r, echo=FALSE}
-```{r, echo = FALSE}
+```{r fairelc, echo=FALSE}
 shinyApp(
   
   ui = fluidPage(
-    selectInput("region", "Region:", 
-                choices = colnames(WorldPhones)),
-    plotOutput("phonePlot")
+
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("fairelc", "",
+             c("En lainkaan tärkeänä demokratian kannalta yleisesti" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Äärimmäisen tärkeänä demokratian kannalta yleisesti"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
   ),
   
   server = function(input, output) {
-    output$phonePlot <- renderPlot({
-      barplot(WorldPhones[,input$region]*1000, 
-              ylab = "Number of Telephones", xlab = "Year")
+    
+    mini <- "Not at all important for democracy in general"
+    maxi <- "Extremely important for democracy in general"
+    
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$fairelc",
+              value = as.numeric(input$fairelc),
+              mini <- mini,
+              maxi <- maxi)
     })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$fairelc",
+              value = as.numeric(input$fairelc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$fairelc",
+              value = as.numeric(input$fairelc),
+              mini <- mini,
+              maxi <- maxi)
+    })    
+    
   },
   
   options = list(height = 500)
 )
 ```
 
-## Minkälaiset kotitaloutenne tulot ovat tällä hetkellä?
+
+##
+
+Miten hyvin seuraavat väittämät mielestänne sopivat Suomeen? **Valtiolliset vaalit ovat Suomessa vapaat ja rehelliset?**
+
+
+```{r fairelcc, echo=FALSE}
+shinyApp(
+  
+  ui = fluidPage(
+
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("fairelcc", "",
+             c("Ei sovi lainkaan" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Sopii täydellisesti"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
+  ),
+  
+  server = function(input, output) {
+    
+    mini <- "Does not apply at all"
+    maxi <- "Applies completely"
+    
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$fairelcc",
+              value = as.numeric(input$fairelcc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$fairelcc",
+              value = as.numeric(input$fairelcc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$fairelcc",
+              value = as.numeric(input$fairelcc),
+              mini <- mini,
+              maxi <- maxi)
+    })    
+    
+  },
+  
+  options = list(height = 500)
+)
+```
+
+# Mielipiteet yhteiskunnasta ja politiikasta
+
+##
+
+Suomessa tiedotusvälineet tarjoavat kansalaisille luotettavaa tietoa, jonka perusteella arvioida hallituksen toimintaa?
+
+
+```{r meprinfc, echo=FALSE}
+shinyApp(
+  
+  ui = fluidPage(
+
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("meprinfc", "",
+             c("Ei sovi lainkaan" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Sopii täydellisesti"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
+  ),
+  
+  server = function(input, output) {
+    
+    mini <- "Does not apply at all"
+    maxi <- "Applies completely"
+    
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$meprinfc",
+              value = as.numeric(input$meprinfc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$meprinfc",
+              value = as.numeric(input$meprinfc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$meprinfc",
+              value = as.numeric(input$meprinfc),
+              mini <- mini,
+              maxi <- maxi)
+    })    
+    
+  },
+  
+  options = list(height = 500)
+)
+```
+
+
+##
+
+kuinka hyvin seuraavat väittämät mielestänne sopivat Suomeen? **Suomessa hallitus suojelee kaikkia kansalaisia köyhyydeltä?**
+
+
+```{r gvctzpvc, echo=FALSE}
+shinyApp(
+  
+  ui = fluidPage(
+
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("gvctzpvc", "",
+             c("Ei sovi lainkaan" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Sopii täydellisesti"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
+  ),
+  
+  server = function(input, output) {
+    
+    mini <- "Does not apply at all"
+    maxi <- "Applies completely"
+    
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$gvctzpvc",
+              value = as.numeric(input$gvctzpvc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$gvctzpvc",
+              value = as.numeric(input$gvctzpvc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$gvctzpvc",
+              value = as.numeric(input$gvctzpvc),
+              mini <- mini,
+              maxi <- maxi)
+    })    
+    
+  },
+  
+  options = list(height = 500)
+)
+```
+
+
+# Asenteet toisia ihmisiä kohtaan
+
+
+##
+
+**Voiko mielestänne ihmisiin luottaa**, vai onko niin, ettei ihmisten suhteen voi olla liian varovainen. Kertokaa mielipiteenne asteikolla nollasta kymmeneen, jossa nolla tarkoittaa, ettei ihmisten kanssa voi olla liian varovainen ja 10, että useimpiin ihmisiin voi luottaa?
+
 
 ```{r, echo=FALSE}
-inputPanel(
-    
-   radioButtons("tulot", "",
-             c("Nykyisillä tuloilla elää mukavasti" = "Paskapuhetta",
-               "Nykyisillä tuloilla tulee toimeen" = "Joo joo",
-               "Nykyisillä tuloilla on vaikeuksia tulla toimeen" = "Älä höpötä",
-               "Nykyisillä tuloilla on hyvin vaikea tulla toimeen" = "Afrikassa lapset kuolee nälkään"))
-)
+shinyApp(
+  
+  ui = fluidPage(
 
-renderTable({
-  tulot <- as.data.frame(input$tulot)
-  tulot
-  #ggplot(cars, aes(speed,dist)) + geom_point()
-})
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("trust", "",
+             c("Et voi olla liian varovainen" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Useimpiin voi luottaa"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
+  ),
+  
+  server = function(input, output) {
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$ppltrst",
+              value = as.numeric(input$trust),
+              mini = "You can't be too careful",
+              maxi = "Most people can be trusted")
+    })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$ppltrst",
+              value = as.numeric(input$trust),
+              mini = "You can't be too careful",
+              maxi = "Most people can be trusted")
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$ppltrst",
+              value = as.numeric(input$trust),
+              mini = "You can't be too careful",
+              maxi = "Most people can be trusted")
+    })    
+    
+  },
+  
+  options = list(height = 500)
+)
+```
+
+##
+
+Katsotteko, että useimmiten ihmiset pyrkivät olemaan auttavaisia toisia kohtaan vai että enimmäkseen he ajattelevat vain omaa etuaan?
+
+
+```{r, echo=FALSE}
+shinyApp(
+  
+  ui = fluidPage(
+
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("fair", "",
+             c("Ihmiset ajattelevat enimmäkseen omaa etuaan" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Ihmiset yrittävät enimmäkseen olla auttavaisia"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
+  ),
+  
+  server = function(input, output) {
+    
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$pplfair",
+              value = as.numeric(input$fair),
+              mini <- "Most people try to take advantage of me",
+              maxi <- "Most people try to be fair")
+    })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$pplfair",
+              value = as.numeric(input$fair),
+              mini <- "Most people try to take advantage of me",
+              maxi <- "Most people try to be fair")
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$pplfair",
+              value = as.numeric(input$fair),
+              mini <- "Most people try to take advantage of me",
+              maxi <- "Most people try to be fair")
+    })    
+    
+  },
+  
+  options = list(height = 500)
+)
+```
+
+# Koettu elämänhallinta
+
+
+##
+
+Missä määrin teistä tuntuu siltä, että tiedätte, mihin suuntaan elämänne on menossa? 0 tarkoittaa ei lainkaan ja 10 äärimmäisen paljon.
+
+
+```{r sedirlf, echo=FALSE}
+shinyApp(
+  
+  ui = fluidPage(
+
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("sedirlf", "",
+             c("En lainkaan" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Äärimmäisen paljon"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
+  ),
+  
+  server = function(input, output) {
+    
+    mini <- "Not at all"
+    maxi <- "Completely"
+    
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$sedirlf",
+              value = as.numeric(input$sedirlf),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$sedirlf",
+              value = as.numeric(input$sedirlf),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$sedirlf",
+              value = as.numeric(input$sedirlf),
+              mini <- mini,
+              maxi <- maxi)
+    })    
+    
+  },
+  
+  options = list(height = 500)
+)
 ```
 
 
 
+## 
+
+Jotkut ihmiset ovat lähempänä yhteiskuntamme huippua ja toiset (M) lähempänä sen pohjaa. Mihin kohtaan tällä asteikolla sijoittaisitte tällä hetkellä itsenne?
+
+
+```{r plinsoc, echo=FALSE}
+shinyApp(
+  
+  ui = fluidPage(
+
+  sidebarLayout(
+    
+    sidebarPanel(
+      radioButtons("plinsoc", "",
+             c("Yhteiskuntamme pohja" = 0,
+               "1" = 1,
+               "2" = 2,
+               "3" = 3,
+               "4" = 4,
+               "5" = 5,
+               "6" = 6,
+               "7" = 7,
+               "8" = 8,
+               "9" = 9,
+               "Yhteiskuntamme huippu"=10))
+    ),
+  
+    mainPanel(
+      tabsetPanel(
+        tabPanel("Kartta", plotOutput("kartta")),
+        tabPanel("Jakauma", plotOutput("laatikkojana")), 
+        tabPanel("Tolpat", plotOutput("tolppa")) 
+      )
+    )
+  )
+  ),
+  
+  server = function(input, output) {
+    
+    mini <- "Bottom of our society"
+    maxi <- "Top of our society"
+    
+    output$laatikkojana <- renderPlot({
+              ess_laatikkojana(var="ess$plinsoc",
+              value = as.numeric(input$plinsoc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$tolppa <- renderPlot({
+              ess_tolppa(var="ess$plinsoc",
+              value = as.numeric(input$plinsoc),
+              mini <- mini,
+              maxi <- maxi)
+    })
+    output$kartta <- renderPlot({
+              ess_kartta(var="ess$plinsoc",
+              value = as.numeric(input$plinsoc),
+              mini <- mini,
+              maxi <- maxi)
+    })    
+    
+  },
+  
+  options = list(height = 500)
+)
+```
+
+
+
+
+# Tulot ja toimeentulo
+
+
+
+## Siirrytään Eurostatin datoihin..
