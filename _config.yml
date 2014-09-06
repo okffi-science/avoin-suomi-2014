@@ -1,0 +1,7 @@
+name: Sinä ja sun Eurooppas
+description: Something here
+markdown: redcarpet
+redcarpet:
+  extensions: ["tables"]
+pygments: false
+baseurl: https://okffi-science.github.io/avoin-suomi-2014
