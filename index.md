@@ -11,7 +11,15 @@ Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet euro
 
 ## Klikkaa, vastaa ja testaa!
 
-- [Arvot, asenteet ja mielipiteet?](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_ess.Rmd)
+### Arvot ja asenteet
+
+- [Mielipiteet demokratiasta](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_demokratia.Rmd)
+- [Mielipiteet hyvinvointipolitiikasta](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_politiikka.Rmd)
+- [Luottamus ihmisiin ja yhteiskuntaan](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_luottamus.Rmd)
+- [Kokemus elämänhallinnasta](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_hallinta.Rmd)
+
+### Työ, elinolot ja toimeentulo
+
 - [Työ ja toimeentulo](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_eurostat.Rmd)
 
 
