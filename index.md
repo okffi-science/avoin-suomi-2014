@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Sinä ja sun Eurooppas
+title: Eurooppalaisten asenteista ja hyvinvoinnista
 ---
 
 
-# Sinä ja sun Eurooppas
+# Eurooppalaisten asenteista ja hyvinvoinnista
 
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
 
