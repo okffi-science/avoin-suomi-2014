@@ -14,3 +14,9 @@ Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet euro
 - [Arvot, asenteet ja mielipiteet?](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_ess.Rmd)
 - [Työ ja toimeentulo](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_eurostat.Rmd)
 
+
+***
+
+
+![](qr/qrcode.png)
+
