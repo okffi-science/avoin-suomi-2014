@@ -22,13 +22,12 @@ Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet euro
 
 
 - [Köyhyys ja aineellinen puute](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_koyhyys.Rmd)
-
-- [Työ ja toimeentulo](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_eurostat.Rmd)
+- [Työ ja toimeentulo - tekeillä..](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_eurostat.Rmd)
 
 
 ### Maatason indikaattoreita sosiaalipolitiikasta ja hyvinvoinnista
 
-Tällä härvelillä voit laskea korrelaatioita sekä piirtää aikasarjoja ja karttoja yli tuhannesta (1000) [Quality of Government](http://www.qog.pol.gu.se/)-instituutin avoimesta [Social Policy](http://www.qog.pol.gu.se/data/datadownloads/qogsocialpolicydata/)-datasta löytyvästä indikaattorista.
+Tällä härvelillä voit laskea korrelaatioita sekä piirtää aikasarjoja ja karttoja yli tuhannesta (1000) [Quality of Government](http://www.qog.pol.gu.se/)-instituutin *avoimesta* [Social Policy](http://www.qog.pol.gu.se/data/datadownloads/qogsocialpolicydata/)-datasta löytyvästä indikaattorista.
 
 - [Correlation gadget on Quality of Govenment data - Social Policy data](http://glimmer.rstudio.com/muuankarski/QogSocPol/)
 
