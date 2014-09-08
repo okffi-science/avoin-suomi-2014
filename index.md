@@ -6,6 +6,8 @@ title: Eurooppalaisten asenteista ja hyvinvoinnista
 
 # Eurooppalaisten asenteista ja hyvinvoinnista
 
+**Sivusto on keskeneräinen! Vuorovaikutteiset osiot täydentyvät [Avoin Suomi 2014](http://avoinsuomi2014.fi/)-messuihin mennessä 15. syyskuuta**
+
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
 
 
