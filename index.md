@@ -10,22 +10,23 @@ title: Eurooppalaisten asenteista ja hyvinvoinnista
 
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
 
+Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusaineistoja, joiden antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee.
 
 ## Klikkaa, vastaa ja testaa!
 
-### Arvot ja asenteet
+### European Social Survey
 
-- [Mielipiteet demokratiasta](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_demokratia.Rmd)
-- [Mielipiteet hyvinvointipolitiikasta](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_politiikka.Rmd)
-- [Luottamus ihmisiin ja yhteiskuntaan](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_luottamus.Rmd)
-- [Kokemus elämänhallinnasta](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_hallinta.Rmd)
+- [Hyvinvointi](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/ess_hyvinvointi.Rmd)
+- [Luottamus ihmisiin ja yhteiskuntaan](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/ess_luottamus.Rmd)
+- [Arvot ja asenteet](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/ess_arvot.Rmd)
 
-### Työ, elinolot ja toimeentulo
+### Eurostat:n tilastot
+
+- [Köyhyys ja aineellinen puute](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_koyhyys.Rmd)
+- [Aluiden taloudellinen kehitys](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_alueet.Rmd)
 
 
-- [Köyhyys ja aineellinen puute](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_koyhyys.Rmd)
-- [Työ ja toimeentulo - tekeillä..](https://muuankarski.shinyapps.io/avoin-suomi-2014-shinydocs/shiny_eurostat.Rmd)
-
+<!--
 
 ### Maatason indikaattoreita sosiaalipolitiikasta ja hyvinvoinnista
 
@@ -39,3 +40,4 @@ Tällä härvelillä voit laskea korrelaatioita sekä piirtää aikasarjoja ja k
 
 ![](qr/qrcode.png)
 
+-->
