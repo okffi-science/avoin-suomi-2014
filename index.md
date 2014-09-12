@@ -22,11 +22,14 @@ Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusainei
 
 ### Eurostat:n tilastot
 
+- [Graafinen DYI-käyttöliittymä Eurostat:n datoihin](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_alueet.Rmd)
 - [Köyhyys ja aineellinen puute](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_koyhyys.Rmd)
-- [Aluiden taloudellinen kehitys](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_alueet.Rmd)
+
 
 
 <!--
+
+- [Aluiden taloudellinen kehitys](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_alueet.Rmd)
 
 ### Maatason indikaattoreita sosiaalipolitiikasta ja hyvinvoinnista
 
