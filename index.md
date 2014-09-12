@@ -12,6 +12,8 @@ Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet euro
 
 Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusaineistoja, joiden antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee.
 
+
+
 ## Klikkaa, vastaa ja testaa!
 
 ### European Social Survey
@@ -25,6 +27,10 @@ Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusainei
 - [Graafinen DYI-käyttöliittymä Eurostat:n datoihin](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_alueet.Rmd)
 - [Köyhyys ja aineellinen puute](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_koyhyys.Rmd)
 
+
+## Sovellusten lähdekoodi
+
+Löytyy Github:sta [github.com/okffi-science/avoin-suomi-2014-shiny](https://github.com/okffi-science/avoin-suomi-2014-shiny)
 
 
 <!--
