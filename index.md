@@ -4,14 +4,13 @@ title: Eurooppalaisten asenteista ja hyvinvoinnista
 ---
 
 
-# Eurooppalaisten asenteista ja hyvinvoinnista
-
-**Sivusto on keskeneräinen! Vuorovaikutteiset osiot täydentyvät [Avoin Suomi 2014](http://avoinsuomi2014.fi/)-messuihin mennessä 15. syyskuuta**
+# Eurooppalaisten asenteista, elinoloista ja avoimesta datasta
 
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
 
 Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusaineistoja, joiden antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee.
 
+Tämän demon tarkoituksena on osoittaa mitä avoimella datalla ja avoimilla menetelmillä voi saada aikaan, ja millainen potentiaali niillä olisi tutkimukseen, opetukseen ja laajemmin yhteiskuntaan.
 
 
 ## Klikkaa, vastaa ja testaa!
@@ -33,6 +32,16 @@ Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusainei
 Löytyy Github:sta [github.com/okffi-science/avoin-suomi-2014-shiny](https://github.com/okffi-science/avoin-suomi-2014-shiny)
 
 
+***
+
+
+### [bit.ly/1oLVOxG](http://bit.ly/1oLVOxG)
+
+![](qr/qrcode.png)
+
+
+
+
 <!--
 
 - [Aluiden taloudellinen kehitys](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_alueet.Rmd)
@@ -47,6 +56,6 @@ Tällä härvelillä voit laskea korrelaatioita sekä piirtää aikasarjoja ja k
 ***
 
 
-![](qr/qrcode.png)
+
 
 -->
