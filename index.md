@@ -12,7 +12,9 @@ Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet euro
 
 Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusaineistoja, joiden antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee. 
 
-Tämä demo muutaman tunnin iltapuhde. Sen tarkoituksena on osoittaa kuinka tehokkaita avoimet analyysimenetelmät ovat yhdessä avoimen datan kanssa ja millainen potentiaali niillä on tieteen, tutkimuksen ja opetuksen suhteen. Kerromme lisää ständillä 9, aivan Tampereen naapurissa!
+Tämä demo muutaman tunnin iltapuhde. Sen tarkoituksena on osoittaa kuinka tehokkaita avoimet analyysimenetelmät ovat yhdessä avoimen datan kanssa ja millainen potentiaali niillä on tieteen, tutkimuksen ja opetuksen suhteen. 
+
+**Kerromme lisää ständillä 9, aivan Tampereen naapurissa!**
 
 
 ## Klikkaa, vastaa ja testaa!
