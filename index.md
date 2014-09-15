@@ -1,16 +1,18 @@
 ---
 layout: default
-title: Eurooppalaisten asenteista ja hyvinvoinnista
+title: Eurooppalaisten asenteista, elinoloista ja avoimesta datasta
 ---
 
 
 # Eurooppalaisten asenteista, elinoloista ja avoimesta datasta
 
+>Open Knowledge Suomen avoimen tieteen työryhmän Avoin Suomi 2014 -messujen analyysidemo
+
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
 
-Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusaineistoja, joiden antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee.
+Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusaineistoja, joiden antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee. 
 
-Tämän demon tarkoituksena on osoittaa mitä avoimella datalla ja avoimilla menetelmillä voi saada aikaan, ja millainen potentiaali niillä olisi tutkimukseen, opetukseen ja laajemmin yhteiskuntaan.
+Tämä demo muutaman tunnin iltapuhde. Sen tarkoituksena on osoittaa kuinka tehokkaita avoimet analyysimenetelmät ovat yhdessä avoimen datan kanssa ja millainen potentiaali niillä on tieteen, tutkimuksen ja opetuksen suhteen. Kerromme lisää ständillä 9, aivan Tampereen naapurissa!
 
 
 ## Klikkaa, vastaa ja testaa!
