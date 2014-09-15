@@ -26,10 +26,13 @@ Tämän demon tarkoituksena on osoittaa mitä avoimella datalla ja avoimilla men
 - [Graafinen DYI-käyttöliittymä Eurostat:n datoihin](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_alueet.Rmd)
 - [Köyhyys ja aineellinen puute](https://muuankarski.shinyapps.io/avoin-suomi-2014-shiny/eurostat_koyhyys.Rmd)
 
+***
 
-## Sovellusten lähdekoodi
+![](http://ropengov.github.io/images/logo.png)
 
-Löytyy Github:sta [github.com/okffi-science/avoin-suomi-2014-shiny](https://github.com/okffi-science/avoin-suomi-2014-shiny)
+**Sovellukset on tehty [rOpenGov](http://ropengov.github.io/)-projektin työkaluilla.**
+
+Sovellusten lähdekoodi Löytyy Github:sta [github.com/okffi-science/avoin-suomi-2014-shiny](https://github.com/okffi-science/avoin-suomi-2014-shiny)
 
 
 ***
