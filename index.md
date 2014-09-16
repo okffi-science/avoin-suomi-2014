@@ -10,9 +10,9 @@ title: Eurooppalaisten asenteista, elinoloista ja avoimesta datasta
 
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
 
-Aineistot eivät ole ns. mielipidetiedusteluja, vaan tieteellisiä tutkimusaineistoja, joiden antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee. 
+European Social Survey ei ole ns. mielipidetiedustelu, vaan tieteellinen tutkimusaineisto, jonka antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee. Eurostat puolestaan tilastoi kansallisten tilastoviranomaisten avustuksella inhimillisen elämää eri puolilta. Eurostatin tilastoissa on myös tutkimusaineistoista peräisin olevia tietoja, kuten kotitalouksien elinoloihin liittyviä tietoja.
 
-Tämä demo muutaman tunnin iltapuhde. Sen tarkoituksena on osoittaa kuinka tehokkaita avoimet analyysimenetelmät ovat yhdessä avoimen datan kanssa ja millainen potentiaali niillä on tieteen, tutkimuksen ja opetuksen suhteen. 
+Tämä demo muutaman tunnin iltapuhde. Sen tarkoituksena on osoittaa kuinka tehokkaita avoimet analyysimenetelmät ovat yhdessä avoimen (tutkimus)datan kanssa ja millainen potentiaali niillä on tieteen, tutkimuksen ja opetuksen suhteen. 
 
 **Kerromme lisää ständillä 9, aivan Tampereen naapurissa!**
 
@@ -44,9 +44,11 @@ Sovellusten lähdekoodi Löytyy Github:sta [github.com/okffi-science/avoin-suomi
 
 ### [bit.ly/1oLVOxG](http://bit.ly/1oLVOxG)
 
+
+<!--
 ![](qr/qrcode.png)
 
-
+-->
 
 
 <!--
