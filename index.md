@@ -9,7 +9,7 @@ title: Eurooppalaisten asenteista, elinoloista ja avoimesta datasta
 >[Open Knowledge Suomen](http://fi.okfn.org/) [*avoimen tieteen työryhmän*](http://fi.okfn.org/wg/openscience/) [Avoin Suomi 2014](http://avoinsuomi2014.fi/) -messujen analyysidemo
 
 
-    Palvelussa oli katko tiistaina 16.9 kello 11-14. Nyt sovellusten tulisi toimia.
+    Palvelussa oli katko tiistaina 16.9 kello 11-14. Nyt sovellusten tulisi toimia. (2014-09-16 14:10)
 
 
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
