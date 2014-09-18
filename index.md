@@ -9,17 +9,11 @@ title: Eurooppalaisten asenteista, elinoloista ja avoimesta datasta
 >[Open Knowledge Suomen](http://fi.okfn.org/) [*avoimen tieteen työryhmän*](http://fi.okfn.org/wg/openscience/) [Avoin Suomi 2014](http://avoinsuomi2014.fi/) -messujen analyysidemo
 
 
-    Palvelussa oli katko tiistaina 16.9 kello 11-14. Nyt sovellusten tulisi toimia. (2014-09-16 14:10)
-
-
 Tällä sivustolla voit vastata samoihin kysymyksiin kuin kymmenet tuhannet eurooppalaiset koskien asenteita ja arvoja demokratiaa, politiikkaa ja hyvinvointia kohtaan. Sivuston vertailuaineisto perustuu [Eurostatin](http://epp.eurostat.ec.europa.eu/portal/page/portal/eurostat/home) sekä [European Social Survey](http://www.europeansocialsurvey.org/)-tutkimusaineiston tietoihin.
 
 European Social Survey ei ole ns. mielipidetiedustelu, vaan tieteellinen tutkimusaineisto, jonka antama kuva on paras mahdollinen mihin eurooppalainen yhteiskuntatiede kykenee. Eurostat puolestaan tilastoi kansallisten tilastoviranomaisten avustuksella inhimillisen elämää eri puolilta. Eurostatin tilastoissa on myös tutkimusaineistoista peräisin olevia tietoja, kuten kotitalouksien elinoloihin liittyviä tietoja.
 
 Tämä demo muutaman tunnin iltapuhde. Sen tarkoituksena on osoittaa kuinka tehokkaita avoimet analyysimenetelmät ovat yhdessä avoimen (tutkimus)datan kanssa ja millainen potentiaali niillä on tieteen, tutkimuksen ja opetuksen suhteen. 
-
-**Kerromme lisää ständillä 9, aivan Tampereen naapurissa!**
-
 
 ## Klikkaa, vastaa ja testaa!
 
